@@ -5,7 +5,7 @@
 ![image](https://user-images.githubusercontent.com/108987773/209042994-b6177dae-2f2b-479f-a870-8be6b22191fe.png)
 
 - BOAZ
-  - It has a meaning of 'Bigdata is our A to Z.'.
+  - An abbreviation of 'Bigdata is our A to Z'.
   - It is a university students' bigdata union club in South Korea.
 
 ## [Base Session][link]
