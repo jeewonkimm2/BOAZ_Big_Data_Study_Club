@@ -20,7 +20,8 @@
 - Study group is a voluntary studying with other people who wish to study specific topics.
   1. [GAN with PyTorch][link4] : Basic GAN study using PyTorch
   2. [Data Engineering Mentoring][link5] : Data engineering mentoring with senior members of the club
-  
+  3. [MLops][link7]
+
 ## [AIFFEL][link6]
 
 - As an ambassador of an organization called AIFFEL, I was able to study basic deep learning on AIFFEL platform. 
@@ -34,3 +35,4 @@
 [link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/tree/main/StudyGroup/GAN_study
 [link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/tree/main/StudyGroup/Mentoring_DataEngineering
 [link6]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/tree/main/AIFFEL
+[link7]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/tree/main/StudyGroup/MLOps_for_MLE
