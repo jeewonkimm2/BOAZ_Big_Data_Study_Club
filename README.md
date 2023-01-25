@@ -6,7 +6,7 @@
 
 - BOAZ
   - An abbreviation of 'Bigdata is our A to Z'.
-  - It is a university students' bigdata union club in South Korea.
+  - A university students' bigdata union club in South Korea.
 
 ## [Base Session][link]
 
