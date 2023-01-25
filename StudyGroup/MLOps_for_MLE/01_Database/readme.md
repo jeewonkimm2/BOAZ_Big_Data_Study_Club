@@ -75,19 +75,91 @@ docker ps
 pip install pandas psycopg2-binary scikit-learn
 
 ```
-
 - 위의 명령어를 통하여 필요한 패키지 설치
 
 - psycopg2-binary 란? ([Ref][link1])
-
   - Psycopg 는 파이썬을 위한 PostgreSQL 어뎁터
   - 파이썬을 사용하여 PostgreSQL DB서버에 접근하는 코드를 구현하는 가장 간단한 방법은 psycopg2 패키지를 이용하는 것
   - 가장 빠르게 설치하는 방법이 ```$ pip install psycopg2-binary```
 ---
+```
+import psycopg2
+
+db_connect = psycopg2.connect(
+    user="myuser", 
+    password="mypassword",
+    host="localhost",
+    port=5432,
+    database="mydatabase",
+)
+```
+- 위의 명령어를 통하여 DB에 접근. psycopg2의 connect 함수를 사용
+- DB 연결시 기본적으로 5개의 정보가 필요
+---
+```
+import pandas as pd
+from sklearn.datasets import load_iris
+
+X, y = load_iris(return_X_y = True, as_frame = True)
+df = pd.concat([X, y], axis = "columns")
+```
+- 위의 명령어를 사용하여 데이터 불러오기
+---
+```
+def create_table(db_connect):
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS iris_data (
+        id SERIAL PRIMARY KEY,
+        timestamp timestamp,
+        sepal_length float8,
+        sepal_width float8,
+        petal_length float8,
+        petal_width float8,
+        target int
+    );"""
+    print(create_table_query)
+    with db_connect.cursor() as cur:
+        cur.execute(create_table_query)
+        db_connect.commit()
+```
+- 위의 명령어를 사용하여 테이블 생성
+- ```db_connect.cursor() as cur```를 통해 connector에서 cursor 열기
+- ```cur.execute(create_table_query)```를 통해 cursor에 query 전달
+- ```db_connect.commit()```를 통해 query 실행하기 위해 connector에 commit
+- ```cur.close()``` : cursor의 사용이 끝나면 종료
+---
+최종 코드 [table_creator.py][link2]
+
+```
+python table_creator.py
+```
+- 위 명령어를 사용하여 파이썬 스크립트 실행
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 10 49 30 PM" src="https://user-images.githubusercontent.com/108987773/214580521-87fbc61f-0e58-4b0d-9a3a-b9e05385932a.png">
+---
+```
+\d
+```
+- psql을 통해 DB에 접속 후 테이블 확인
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 10 51 37 PM" src="https://user-images.githubusercontent.com/108987773/214580994-ed6669e4-6592-42f9-8914-c05539b6464f.png">
+  
+```
+select * from iris_data;
+```
+- 위 명령어를 사용하여 iris_data 테이블에 있는 전체 데이터 확인
+- 결과
+  
+  <img width="700" alt="Screenshot 2023-01-25 at 10 53 02 PM" src="https://user-images.githubusercontent.com/108987773/214581339-cf9b6ae3-3a0a-4a02-b6ef-ed4630bbeeba.png">
+---
+# <3> Data Insertion
+
+
+
 
   
   
-  
-  
-  
-  [link1]: https://www.psycopg.org/docs/install.html
+[link1]: https://www.psycopg.org/docs/install.html
+[link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/table_creator.py
