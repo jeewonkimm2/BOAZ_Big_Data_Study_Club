@@ -156,7 +156,7 @@ select * from iris_data;
 ---
 # <3> Data Insertion
 
-1. 데이터 불러오기
+1. 데이터 불러오고 함수 형태로 저장
 ```
 import pandas as pd
 from sklearn.datasets import load_iris
@@ -171,9 +171,29 @@ rename_rule = {
 }
 df = df.rename(columns=rename_rule)
 ```
+---
+2. 데이터 row 1개 추출 후 DB 서버에 추가
+- 최종 코드 [data_insertion.py][link3]
+
+```
+python data_insertion.py
+```
+- 위 명령어를 사용하여 파이썬 스크립트 실행
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 11 07 55 PM" src="https://user-images.githubusercontent.com/108987773/214584895-d1e04874-6be7-40ba-98f0-1f5f8d06bc4e.png">
+
+```
+select * from iris_data;
+```
+- 위 명령어를 사용하여 iris_data 테이블에 있는 전체 데이터 확인
+- 결과
+  
+  <img width="700" alt="Screenshot 2023-01-25 at 11 09 12 PM" src="https://user-images.githubusercontent.com/108987773/214585175-36393640-28dc-4ab5-aa00-04bc61cd7180.png">
 
 
   
   
 [link1]: https://www.psycopg.org/docs/install.html
 [link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/table_creator.py
+[link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/data_insertion.py
