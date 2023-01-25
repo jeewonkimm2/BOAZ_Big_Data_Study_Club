@@ -1,13 +1,73 @@
+# <목표>
+1. Docker를 이용하여 PostgreSQL DB 서버 생성
+2. 생성된 의 role name과 attributes 확인
+3. ```psycopg2``` 패키지를 이용하여 테이블 생성 및 데이터 삽입
+4. Dockerfile, Docker Compose 파일을 통해 Docker 컨테이너 안에서 계속해서 데이터를 생성하는 서비스 구축
 
-1. How to access psql
+```
+PostgreSQL 이란?
 
-<img width="566" alt="Screenshot 2023-01-24 at 9 11 32 PM" src="https://user-images.githubusercontent.com/108987773/214289751-ba4c0158-bb49-453a-a4f1-52d875691a8b.png">
+PostgreSQL(포스트-그레스-큐엘 [Post-Gres-Q-L]로 발음)은 객체-관계형 데이터베이스 시스템(ORDBMS)으로, 엔터프라이즈급 DBMS의 기능과 차세대 DBMS에서나 볼 수 있을 법한 많은 기능을 제공하는 오픈소스 DBMS다.
+실제 기능적인 면에서는 Oracle과 유사한 것이 많아, Oracle 사용자들이 가장 쉽게 적응할 수 있는 오픈소스 DBMS가 PostgreSQL이라는 세간의 평 또한 많다.
+
+```
+
+
+# <1> DB Server Creation
+
+1. Docker를 통한 DB서버 생성
 
 
 ```
-/Library/PostgresSQL/15/scripts/runpsql.sh
+docker run -d --name postgres-server -p 5432:5432 -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase postgres:14.0
 ```
 
-- Database : mydatabase
-- Port : 5432
-- Username : myuser
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 4 59 58 PM" src="https://user-images.githubusercontent.com/108987773/214509840-4a16158d-e724-43f5-a467-d36f07286398.png">
+  
+  <터미널>
+  
+  <img width="700" alt="Screenshot 2023-01-25 at 5 01 45 PM" src="https://user-images.githubusercontent.com/108987773/214510173-56b195c0-5b0a-4e5e-a9c6-32cd95082cf1.png">
+  
+  <도커 컨테이너 화면>
+
+- postgres:14.0 이미지가 다운 되었으며, postgres-server 이름의 컨테이너가 생성됨
+
+---
+  
+```
+docker ps
+```
+- 위의 명령어를 통하여 DB서버가 생성되었는지 확인
+
+- 결과
+  
+  <img width="700" alt="Screenshot 2023-01-25 at 5 10 07 PM" src="https://user-images.githubusercontent.com/108987773/214511386-5f2681c5-f8db-4020-a129-84a1587ec925.png">
+
+---
+  
+```
+/Library/PostgreSQL/15/scripts/runpsql.sh;
+```
+
+- 위의 명령어를 통하여 psql(PostgreSQL DB서버 확인할 때 사용)에 접근함
+
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 5 16 20 PM" src="https://user-images.githubusercontent.com/108987773/214512525-3dc0f186-114d-43dc-9d30-0b2a3a1e5d6a.png">
+  
+  - password => mypassword
+---
+```
+\du
+```
+
+- 위의 명령어를 통하여 DB의 role name과 attribute를 확인
+
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-25 at 5 18 26 PM" src="https://user-images.githubusercontent.com/108987773/214512875-3a87a781-8c7f-4f9b-968a-bc1655d53a3c.png">
+
+
+# <2> Table Creation
