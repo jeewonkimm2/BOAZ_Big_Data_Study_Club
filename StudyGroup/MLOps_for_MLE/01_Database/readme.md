@@ -156,7 +156,21 @@ select * from iris_data;
 ---
 # <3> Data Insertion
 
+1. 데이터 불러오기
+```
+import pandas as pd
+from sklearn.datasets import load_iris
 
+X, y = load_iris(return_X_y=True, as_frame=True)
+df = pd.concat([X, y], axis="columns")
+rename_rule = {
+    "sepal length (cm)": "sepal_length",
+    "sepal width (cm)": "sepal_width",
+    "petal length (cm)": "petal_length",
+    "petal width (cm)": "petal_width",
+}
+df = df.rename(columns=rename_rule)
+```
 
 
   
