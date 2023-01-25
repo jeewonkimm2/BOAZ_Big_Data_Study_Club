@@ -68,6 +68,26 @@ docker ps
 - 결과
 
   <img width="700" alt="Screenshot 2023-01-25 at 5 18 26 PM" src="https://user-images.githubusercontent.com/108987773/214512875-3a87a781-8c7f-4f9b-968a-bc1655d53a3c.png">
-
-
+---
 # <2> Table Creation
+
+```
+pip install pandas psycopg2-binary scikit-learn
+
+```
+
+- 위의 명령어를 통하여 필요한 패키지 설치
+
+- psycopg2-binary 란? ([Ref][link1])
+
+  - Psycopg 는 파이썬을 위한 PostgreSQL 어뎁터
+  - 파이썬을 사용하여 PostgreSQL DB서버에 접근하는 코드를 구현하는 가장 간단한 방법은 psycopg2 패키지를 이용하는 것
+  - 가장 빠르게 설치하는 방법이 ```$ pip install psycopg2-binary```
+---
+
+  
+  
+  
+  
+  
+  [link1]: https://www.psycopg.org/docs/install.html
