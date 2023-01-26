@@ -1,5 +1,13 @@
 # <목표>
-1. Basic Workflow 구성하기 : Load Data -> Train Data -> Save Model
+
+1. Basic Workflow 구성하기 : Load Data -> Train Model -> Save Model
+
+    ![image](https://user-images.githubusercontent.com/108987773/214774081-fdd47443-12cd-4269-b0e9-0ccc11901d09.png)
+
+2. Database Workflow 구성하기 : Data Generator -> Postgres Server -> Query Data -> Train Model -> Save model
+  
+    ![image](https://user-images.githubusercontent.com/108987773/214774168-fec096f7-a703-48e1-b368-e119dbe75af7.png)
+
 ---
 # <1> Base Model Development
 
