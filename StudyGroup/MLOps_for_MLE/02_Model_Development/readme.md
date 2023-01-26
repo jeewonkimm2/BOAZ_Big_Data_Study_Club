@@ -28,6 +28,9 @@ pip install pandas scikit-learn joblib
 1. 파이프라인을 활용한 Preprocessing & Train
 - 학습된 모델 저장 [pipeline_train.py][link2]
 - 학습된 모델 저장 [pipeline_validate_save_model.py][link3]
+---
+# <3> Load Data from Database
+
 
   
   
