@@ -190,10 +190,154 @@ select * from iris_data;
 - 결과
   
   <img width="700" alt="Screenshot 2023-01-25 at 11 09 12 PM" src="https://user-images.githubusercontent.com/108987773/214585175-36393640-28dc-4ab5-aa00-04bc61cd7180.png">
+---
+# <4> Data Insertion Loop
 
+1. [data_insertion.py][link3] 를 바탕으로 ```while```문을 사용하여 코드 작성
 
+- 최종 코드 [data_insertion_loop.py][link4]
+- 결과
+
+  <img width="700" alt="Screenshot 2023-01-26 at 1 26 51 PM" src="https://user-images.githubusercontent.com/108987773/214758476-bc1d0552-4339-49d0-95b1-2644ac19a38e.png">
+
+  - ```command+C``` 를 하지 않는 이상 계속 추가됨
+---
+# <5> Data Generator on Docker
+
+- 앞서 작성했던 코드를 Docker 컨테이너 안에서 실행하기 위해 Dockerfile 작성
+
+1. 데이터를 생성하는 [data_generator.py][link5] 작성
+  - 이전과의 차이점은 호스트를 받는 부분을 ```ArgumentParser```로 변경함
+  
+  ```
+  ArgumentParser 란?
+  프로그램 실행시 커맨드 라인에 인수를 받아 처리를 간단히 할 수 있도록 하는 표준 라이브러리
+  
+  ```
+---
+2. Dockerfile을 이용한 컨테이너 생성
+  - 이미지 빌드
+    ```
+    docker build -t data-generator .
+    ```
+  - 결과
+  
+    <img width="700" alt="Screenshot 2023-01-26 at 1 37 27 PM" src="https://user-images.githubusercontent.com/108987773/214759465-f78cf215-0148-42b8-9790-40c67dd0fb47.png">
+---
+3. Docker Network
+  <img width="300" alt="Screenshot 2023-01-26 at 1 39 46 PM" src="https://user-images.githubusercontent.com/108987773/214759730-2abf751e-62bc-404b-9c5a-c31091cf0888.png">
+  
+  - 포트 포워딩을 통하여 로컬에서 컨테이너 내부의 5432 포트인 DB에 접근할 수 있었음
+  
+  <img width="500" alt="Screenshot 2023-01-26 at 1 40 42 PM" src="https://user-images.githubusercontent.com/108987773/214759831-658aee1f-8d15-4f7f-8cca-0ac8cda108b0.png">
+  
+  - Data Generator 컨테이너를 실행시켰을 때, 위의 그림처럼 DB container와 연결해주어야함(두 개의 컨테이너가 통신할 수 있어야 함)
+---
+4. 해결책 - 네트워크 연결
+
+```
+docker network create my-network
+```
+  - 컨테이너 간 통신을 위한 네트워크 생성
+
+```
+docker network connect my-network postgres-server
+```
+
+  - DB 컨테이너를 생성된 네트워크에 연결
+  
+```
+docker run -d \
+  --name data-generator \
+  --network "my-network" \
+  data-generator "postgres-server"
+```
+
+  - data-generator 이미지를 이용하여 data-generator 이름의 컨테이너 생성
+  - ```--network "my-network"```를 통하여 네트워크 이름 입력
+  - 결과
+  
+    <img width="700" alt="Screenshot 2023-01-26 at 1 51 05 PM" src="https://user-images.githubusercontent.com/108987773/214760955-9167627e-ce75-457f-a05d-d4241bb21305.png">
+
+    ```
+    select * from iris_data;
+    ```
+
+    - 데이터가 계속 추가됨을 확인 
+---
+# <6> Data Generator on Docker Compose
+
+- DB 컨테이너와 Data Generator 컨테이너를 함께 띄우기 위한 Docker Compose 파일 작성하기
+
+1. Compose 파일 작성 [docker-compose.yaml][link6]
+
+```
+yaml 이란?
+
+json과 xml처럼 데이터를 표현하는 방식
+한눈에 구조를 알아보기 쉬운 장점이 있음
+기본적으로 key-value형태로 표현
+```
+
+  - Docker Compose Healthcheck : postgres server가 사용 가능한 상태가 되어 있는지 체크를 한 뒤에 Data Generator를 띄워야 함
+  
+```
+docker compose up -d
+```
+
+  - 위 명령어를 사용하여 yaml 파일 실행
+  - 결과
+  
+    <img width="700" alt="Screenshot 2023-01-26 at 2 10 41 PM" src="https://user-images.githubusercontent.com/108987773/214762923-d871b40d-47e2-4c75-97ec-e6d845ac1a93.png">
+    
+```
+docker network ls
+```
+  
+  - 결과
+    
+    <img width="700" alt="Screenshot 2023-01-26 at 2 11 46 PM" src="https://user-images.githubusercontent.com/108987773/214763029-0f8de91e-a1c6-4328-a542-cdeb86521bc0.png">
+    
+    - ```mlops-network``` 가 생성됨 (터미널 현재 디렉토리가 mlops이기 때문)
+---
+2. 데이터 확인
+
+  - 방법1 : 로컬 ```psql```을 이용하여 데이터가 계속 삽입됨을 확인
+
+    <img width="700" alt="Screenshot 2023-01-26 at 2 15 16 PM" src="https://user-images.githubusercontent.com/108987773/214763385-6b95eeb4-8e07-4cc5-b8d0-97c61abbee3b.png">
+    
+  - 방법2 : Data Generator 컨테이너 안 ```psql```을 이용하여 DB접속
+  
+    - Data Generator 컨테이너 안으로 접속
+
+      ```
+      docker exec -it data-generator /bin/bash
+      ```
+    
+        <img width="700" alt="Screenshot 2023-01-26 at 2 17 41 PM" src="https://user-images.githubusercontent.com/108987773/214763632-10d417c6-42ec-4403-9430-bccbd9f518d0.png">
+  
+  
+      
+    - psql 접속
+    
+      ```
+      PGPASSWORD=mypassword psql -h postgres-server -p 5432 -U myuser -d mydatabase
+      ```
+---
+```
+docker compose down -v
+```
+
+  - 실행한 서비스들 종료
+  
+  
+  
+  
   
   
 [link1]: https://www.psycopg.org/docs/install.html
 [link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/table_creator.py
 [link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/data_insertion.py
+[link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/data_insertion_loop.py
+[link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/data_generator.py
+[link6]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/01_Database/docker-compose.yaml
