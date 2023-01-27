@@ -39,7 +39,11 @@ pip install pandas scikit-learn joblib
         - 결과1 : [data.csv][link5] - 내림차순(가장 큰 숫자 id부터)으로 총 100 개의 데이터가 저장됨
         - 결과2 : [db_pipeline.joblib][link9]
     - 저장된 모델 검증 [db_validate_save_model.py][link10]
-    
+---
+# <4> Practice
+
+1. 목표
+    - [Breast cancer wisconsin dataset][link11] 을 활용하여 Database Workflow 설계하기
 
 
 
@@ -58,3 +62,4 @@ pip install pandas scikit-learn joblib
   [link8]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/model_pipeline.joblib
   [link9]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/db_pipeline.joblib
   [link10]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/db_validate_save_model.py
+  [link11]: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html
