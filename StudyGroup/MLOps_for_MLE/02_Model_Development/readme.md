@@ -44,6 +44,25 @@ pip install pandas scikit-learn joblib
 
 1. 목표
     - [Breast cancer wisconsin dataset][link11] 을 활용하여 Database Workflow 설계하기
+    
+2. [wisconsin_generator.py][link12]
+    - DB 서버에 breast cancer 데이터를 추가하도록 파이썬 코드 작성
+    
+3. [Dockerfile][link13]
+    - Dockerfile을 이용하여 [wisconsin_generator.py][link12] 파일을 실행할 수 있는 이미지를 생성
+    
+    ```
+    Dockerfile 이란?
+    
+    Dockerfile이란 docker에서 이용하는 이미지를 기반으로 하여 새로운 이미지를 스크립트 파일을 통해 내가 설정한 나만의 이미지를 생성할 수 있는 일종의 이미지 설정파일
+    ```
+    
+4. [docker-compose.yaml][link14]
+    - postgres-server 환경 변경
+        - 유저 : jeewonuser
+        - 비밀번호 : jeewonpassword
+        - DB : jeewondatabase
+    - postgres-server와 data-generator는 ```jw-network```를 생성하여 연결
 
 
 
@@ -63,3 +82,6 @@ pip install pandas scikit-learn joblib
   [link9]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/db_pipeline.joblib
   [link10]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/db_validate_save_model.py
   [link11]: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html
+  [link12]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/wisconsin_generator.py
+  [link13]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/Dockerfile
+  [link14]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/docker-compose.yaml
