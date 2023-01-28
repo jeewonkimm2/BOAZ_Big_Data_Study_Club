@@ -44,10 +44,10 @@ pip install pandas scikit-learn joblib
 
 1. 목표
     - [Breast cancer wisconsin dataset][link11] 을 활용하여 Database Workflow 설계하기
-    
+---    
 2. [wisconsin_generator.py][link12]
     - DB 서버에 breast cancer 데이터를 추가하도록 파이썬 코드 작성
-    
+---    
 3. [Dockerfile][link13]
     - Dockerfile을 이용하여 [wisconsin_generator.py][link12] 파일을 실행할 수 있는 이미지를 생성
     
@@ -56,19 +56,32 @@ pip install pandas scikit-learn joblib
     
     Dockerfile이란 docker에서 이용하는 이미지를 기반으로 하여 새로운 이미지를 스크립트 파일을 통해 내가 설정한 나만의 이미지를 생성할 수 있는 일종의 이미지 설정파일
     ```
-    
+---     
 4. [docker-compose.yaml][link14]
     - postgres-server 환경 변경
         - 유저 : jeewonuser
         - 비밀번호 : jeewonpassword
         - DB : jeewondatabase
     - postgres-server와 data-generator는 ```jw-network```를 생성하여 연결
+---     
+5. [db_train.py][link15]
+    - DB로부터 데이터를 추출하여 분석 후 모델 저장
+    - *주의사항* : 모든 컨테이너 (DB서버, Data Generator)가 띄워진 상태에서 진행
+    
+        <img width="700" alt="Screenshot 2023-01-28 at 10 35 22 PM" src="https://user-images.githubusercontent.com/108987773/215269241-c62fc1c0-bbc9-48ed-8c5b-831185e93f61.png">
+    - 학습시때와 다르게 DecisionTreeClassifier 사용
+    - 결과
+        - [jw_dc_pipeline.joblib][link16] 모델 생성
+        - [jw_dc.csv][link17] 데이터 저장 csv 파일 생성
+--- 
+6. [db_validate_save_model.py][link18]
+    - 저장된 모델 검증
+    - 결과
+        
+        <img width="700" alt="Screenshot 2023-01-28 at 10 40 56 PM" src="https://user-images.githubusercontent.com/108987773/215269565-05f44508-2fb0-4721-bc42-87bfe9566192.png">
 
 
 
-  
-  
-  
   
   [link]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/base_train.py
   [link1]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/base_validate_save_model.py
@@ -85,3 +98,7 @@ pip install pandas scikit-learn joblib
   [link12]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/wisconsin_generator.py
   [link13]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/Dockerfile
   [link14]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/docker-compose.yaml
+  [link15]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/db_train.py
+  [link16]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/jw_dc_pipeline.joblib
+  [link17]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/jw_dc.csv
+  [link18]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/wisconsin_practice/db_validate_save_model.py
