@@ -62,6 +62,9 @@ pip install pandas scikit-learn joblib
         - 유저 : jeewonuser
         - 비밀번호 : jeewonpassword
         - DB : jeewondatabase
+            
+            <img width="700" alt="Screenshot 2023-01-28 at 10 43 12 PM" src="https://user-images.githubusercontent.com/108987773/215269686-83a1f71b-d136-4a30-9b23-07090add5f7f.png">
+
     - postgres-server와 data-generator는 ```jw-network```를 생성하여 연결
 ---     
 5. [db_train.py][link15]
