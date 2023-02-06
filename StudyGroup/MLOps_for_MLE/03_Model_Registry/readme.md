@@ -9,7 +9,7 @@
 
 ### Overview
 
-![image](https://user-images.githubusercontent.com/108987773/216858765-55c7fee4-1e80-4a08-9b55-be0ac138cfaa.png)
+<img width="500" alt="Screenshot 2023-02-06 at 1 50 00 PM" src="https://user-images.githubusercontent.com/108987773/216886197-618f8c66-14e4-45cc-a5fd-1029b3d0cc73.png">
 
 - ```PostgresSQL DB Server``` : MLflow의 운영 정보, 모델 결과를 저장하는 물리적인 공간
 - ```MinIO Server``` : 학습된 모델을 저장하는 물리적인 공간
@@ -109,10 +109,98 @@
         
         <img width="700" alt="Screenshot 2023-02-06 at 10 44 35 AM" src="https://user-images.githubusercontent.com/108987773/216863044-70cad882-b1a3-4d6e-bbbd-5f82b585d3fd.png">
         
-            - ID : minio, PW : miniostorage으로 로그인 
+            - ID : minio, PW : miniostorage으로 로그인
+---
+# <2> Save Model to Registry
 
+1. 패키지 설치
+
+```
+pip install boto3==1.26.8 mlflow==1.30.0 scikit-learn
+```
+---
+2. 모델 저장 및 확인
+
+- [기존 코드][link4]에 환경 변수 설정을 추가하자 => MLflow와 통신하기 위해
+
+- 환경변수
+    
+    ```
+    import os
+
+    os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://localhost:9000"
+    os.environ["MLFLOW_TRACKING_URI"] = "http://localhost:5001"
+    os.environ["AWS_ACCESS_KEY_ID"] = "minio"
+    os.environ["AWS_SECRET_ACCESS_KEY"] = "miniostorage"
+    ```
+    
+    - MLFLOW_S3_ENDPOINT_URL : 모델을 저장할 Storage 주소
+    - MLFLOW_TRACKING_URI : 정보를 저장하기 위해 연결할 MLflow 서버의 주소
+    - AWS_ACCESS_KEY_ID : MinIO 접근 아이디
+    - AWS_SECRET_ACCESS_KEY : MinIO 접근 비밀번호
+
+- 모델 저장하기 : ```experiment```와 ```run```사용
+    - experiment : MLflow에서 정보를 관리하기 위한 일종의 directory. 따로 지정하지 않으면 Default의 이름의 experiment에 저장됨
+    - run : experiment에 저장되는 모델의 실험 결과
+
+- 파일 실행 : [save_model_to_registry.py][link2]
+    ```
+    python save_model_to_registry.py --model-name "sk_model"
+    ```
+    
+    - 결과
+        
+        <img width="1200" alt="Screenshot 2023-02-06 at 2 04 20 PM" src="https://user-images.githubusercontent.com/108987773/216887994-12d5db05-920e-40d2-882d-aa585d05d0a3.png">
+
+        <img width="1200" alt="Screenshot 2023-02-06 at 2 05 22 PM" src="https://user-images.githubusercontent.com/108987773/216888108-2da3898c-34be-4324-95ae-4f0916916a87.png">
+        
+        - Localhost:5001 (MLflow 서버)
+        - [data.csv][link3] 생성
+        
+    - 파일 실행시 주의사항
+    
+        <img width="1430" alt="Screenshot 2023-02-06 at 2 13 44 PM" src="https://user-images.githubusercontent.com/108987773/216888980-e3a9aa29-11fc-4907-bdbd-6807762acf7d.png">
+        
+        - 이전에 data-generator를 실행하여 저장한 데이터를 꺼내와서 실행해야함
+---
+# <3> Load Model from Registry
+
+- 목표 : ```Save Model to Registry```에서 작성된 코드로 학습된 모델을 서버로부터 불러오는 코드 작성
+
+    <img width="592" alt="Screenshot 2023-02-06 at 2 32 10 PM" src="https://user-images.githubusercontent.com/108987773/216891300-db537dc7-1e81-4caf-92aa-e67d5f3af227.png">
+
+
+1. 파일 실행 : [load_model_from_registry.py][link5]
+
+    ```
+    python load_model_from_registry.py --model-name "sk_model" --run-id "877bc98dc7894f35a571b3bb45ac14b4"
+    ```
+    
+    - 877bc98dc7894f35a571b3bb45ac14b4 : RUN ID로 MLflow experiment ID를 확인 후 추가함
+    
+        <img width="1671" alt="Screenshot 2023-02-06 at 2 26 14 PM" src="https://user-images.githubusercontent.com/108987773/216890665-1be8dcd2-a7df-4fbe-9052-3bd9bbbcb541.png">
+        
+    - 결과
+    
+        <img width="1324" alt="Screenshot 2023-02-06 at 2 29 22 PM" src="https://user-images.githubusercontent.com/108987773/216890956-db9f21dc-29dc-402c-bfa5-8004010cdb0b.png">
+
+        - MLflow 서버의 metrics 를 확인하여 학습했던 결과와 같은지 확인
+        
+            <img width="338" alt="Screenshot 2023-02-06 at 2 30 02 PM" src="https://user-images.githubusercontent.com/108987773/216891118-7dfd42a5-f692-49f9-8f26-6acf6ef09c80.png">
+
+
+
+        
+        
+
+
+        
 
 
 
 [link]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/03_Model_Registry/Dockerfile
 [link1]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/03_Model_Registry/docker-compose.yaml
+[link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/03_Model_Registry/save_model_to_registry.py
+[link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/03_Model_Registry/data.csv
+[link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/02_Model_Development/db_train.py
+[link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/03_Model_Registry/load_model_from_registry.py
