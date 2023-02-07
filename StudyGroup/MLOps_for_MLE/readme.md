@@ -9,3 +9,8 @@
 ### 2. 이 문서의 목표이자 다루는 내용
   ![image](https://user-images.githubusercontent.com/108987773/214506072-b0335163-84d2-4bb7-b522-34484c20a242.png)
   - 컴포넌트들은 *Docker*로 실행할 예정
+
+### 3. Reference
+  - [ML Engineer를 위한 MLOps][link]
+  
+[link]: https://mlops-for-mle.github.io/tutorial/
