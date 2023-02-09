@@ -72,9 +72,64 @@
     <img width="755" alt="Screenshot 2023-02-08 at 10 28 55 PM" src="https://user-images.githubusercontent.com/108987773/217543491-1fb0aab0-890b-4ed9-beea-b42507a9ad22.png">
 ---
 # <3> Query Parameter 이해하기
-
+- **Query Parameter** : function parameter로는 사용되지만 Path Operation(이 경우에는 GET)에 포함되지 않아 Path Parameter라고 할 수 없는 Parameter
+- [query_param.py][link2]
+- 결과
+  ```
+  uvicorn query_param:app --reload
+  ```
+  - 위 명령어 실행
   
+  - ```http://localhost:8000``` 에 접속
+  
+    <img width="660" alt="Screenshot 2023-02-09 at 8 10 29 PM" src="https://user-images.githubusercontent.com/108987773/217796752-2fc87f2d-4bec-48c5-b7d2-5a1f1be1b503.png">
     
+    <img width="758" alt="Screenshot 2023-02-09 at 8 10 40 PM" src="https://user-images.githubusercontent.com/108987773/217796795-c92ce5b2-9309-442b-9bb4-a5134e8cd373.png">
+
+  - ```http://localhost:8000/items/?skip=0&limit=10``` 에 접속
+  
+    <img width="757" alt="Screenshot 2023-02-09 at 8 11 57 PM" src="https://user-images.githubusercontent.com/108987773/217797102-7d56bdc1-9dde-4542-968a-bbc62b2c49b0.png">
+
+    - Query는 URL에서 ```?``` 뒤에 key-value 쌍의 형태로 나타나고, ```&```으로 구분되어 사용됨
+    - Query Parameter는 path의 고정부분이 아니기 때문에 optional으로 사용될 수 있고, 따라서 기본값을 가질 수 있음
+    
+  - ```http://localhost:8000/items/?skip=0&limit=2``` 에 접속 : 리스트[0:2]가 출력됨을 확인
+  
+    <img width="757" alt="Screenshot 2023-02-09 at 8 18 46 PM" src="https://user-images.githubusercontent.com/108987773/217798498-454faf77-5d14-49b0-aa5c-ca9700d8d7b6.png">
+---
+# <4> Multiple Path and Query Parameters 사용해보기
+- Path Parameter와 Query Parameter를 모두 사용하여 Path Operation Function을 작성해보자
+- [multi_param.py][link3]
+  - Path Parameter : ```user_id```, ```item_id```
+  - Query Parameter : ```q```, ```short```
+- 결과
+  ```
+  uvicorn multi_param:app --reload
+  ```
+  - 위 명령어 실행
+  
+  - ```http://localhost:8000``` 에 접속
+  
+    <img width="662" alt="Screenshot 2023-02-09 at 8 33 40 PM" src="https://user-images.githubusercontent.com/108987773/217801652-5f001519-8b59-4895-b38a-7686a2c99081.png">
+    
+    <img width="755" alt="Screenshot 2023-02-09 at 8 33 52 PM" src="https://user-images.githubusercontent.com/108987773/217801702-1cce5e92-8955-4ac1-be7a-04a740445bec.png">
+
+  - ```http://localhost:8000/users/3/items/foo-item``` 에 접속
+
+    <img width="756" alt="Screenshot 2023-02-09 at 8 36 20 PM" src="https://user-images.githubusercontent.com/108987773/217802225-00a45298-26ab-4d13-95e2-27424012ff6d.png">
+    
+  - ```http://localhost:8000/users/3/items/foo-item?q=hello``` 에 접속
+
+    <img width="757" alt="Screenshot 2023-02-09 at 8 37 54 PM" src="https://user-images.githubusercontent.com/108987773/217802508-b789ea5c-8cc7-4755-92e0-018baa7f76b6.png">
+
+  - ```http://localhost:8000/users/3/items/foo-item?short=True``` 에 접속
+
+    <img width="758" alt="Screenshot 2023-02-09 at 8 43 45 PM" src="https://user-images.githubusercontent.com/108987773/217803699-b173c51d-ea79-4988-8655-bae0f5319f9a.png">
+
+  - ```http://localhost:8000/users/3/items/foo-item?q=hello&short=True``` 에 접속
+
+    <img width="757" alt="Screenshot 2023-02-09 at 8 44 18 PM" src="https://user-images.githubusercontent.com/108987773/217803816-73d3164f-1a31-4787-bc9d-31dd6cb6f382.png">
+
 
 
 
@@ -85,3 +140,5 @@
 
 [link]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/main.py
 [link1]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/path_param.py
+[link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/query_param.py
+[link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/multi_param.py
