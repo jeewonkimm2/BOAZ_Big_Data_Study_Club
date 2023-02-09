@@ -129,6 +129,30 @@
   - ```http://localhost:8000/users/3/items/foo-item?q=hello&short=True``` 에 접속
 
     <img width="757" alt="Screenshot 2023-02-09 at 8 44 18 PM" src="https://user-images.githubusercontent.com/108987773/217803816-73d3164f-1a31-4787-bc9d-31dd6cb6f382.png">
+---
+# <5> API 명세서 작성 및 구현
+- Path Parameter 사용시 : 각 API 에서 사용되는 파라미터를 Request Header 에 넣어 전달
+
+  <img width="589" alt="Screenshot 2023-02-09 at 9 14 20 PM" src="https://user-images.githubusercontent.com/108987773/217810073-bcff03c6-7546-4829-85cc-8717e34fb7e0.png">
+  
+- Query Parameter 사용시 : 각 API 에서 사용되는 파라미터를 Request Body 에 넣어 전달
+
+  <img width="476" alt="Screenshot 2023-02-09 at 9 15 05 PM" src="https://user-images.githubusercontent.com/108987773/217810227-a8dd5919-2167-4d7a-a506-52190ce58f05.png">
+
+- Path Parameter를 활용하여 API 구현
+  - [crud_path.py][link4]
+  - 결과
+    - ```uvicorn crud_path:app --reload``` 명령어 실행
+      
+      <img width="1330" alt="Screenshot 2023-02-09 at 9 17 24 PM" src="https://user-images.githubusercontent.com/108987773/217810749-affab050-f295-48e3-a325-bc365160f713.png">
+
+- Query Parameter를 활용하여 API 구현
+  - [crud_query.py][link5]
+  - 결과
+    - ```uvicorn crud_query:app --reload``` 명령어 실행
+    
+      <img width="755" alt="Screenshot 2023-02-09 at 9 21 38 PM" src="https://user-images.githubusercontent.com/108987773/217811612-89e9e3a0-df94-4e91-84a0-eaabc6647f0e.png">
+
 
 
 
@@ -142,3 +166,5 @@
 [link1]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/path_param.py
 [link2]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/query_param.py
 [link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/multi_param.py
+[link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_path.py
+[link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_query.py
