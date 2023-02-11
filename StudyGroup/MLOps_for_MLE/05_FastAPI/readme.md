@@ -154,8 +154,35 @@
       <img width="755" alt="Screenshot 2023-02-09 at 9 21 38 PM" src="https://user-images.githubusercontent.com/108987773/217811612-89e9e3a0-df94-4e91-84a0-eaabc6647f0e.png">
 ---
 # <6> Pydantic Model
+- Pydantic Model
+  - Client와 API 사이에 데이터를 주고 받을 때 데이터의 형식을 지정해줄 수 있는데 이를 위해 Pydantic Model을 사용할 수 있음
+  - Request Body - Client에서 API로 전송하는 데이터, Response Body - API가 Client로 전송하는 데이터
+- [crud_pydantic.py][link6]
+  ```
+  class CreateIn(BaseModel):
+    name: str
+    nickname: str
+    
+  class CreateOut(BaseModel):
+    status: str
+    id: int
+  ```
+  - Input(Request Body의 구성 요소가 될 변수), Output Schema(Response Body의 구성 요소가 될 변수)를 지정해줌
 
-
+- 실행
+  ```
+  uvicorn crud_pydantic:app --reload
+  ```
+  - 결과
+    
+    <img width="569" alt="Screenshot 2023-02-11 at 11 02 59 PM" src="https://user-images.githubusercontent.com/108987773/218262161-cf4e18ba-2239-4efb-8ff3-7997b95ab6d7.png">
+    
+    - ```http://localhost:8000/docs``` 접속 : Swagger UI 화면 확인 가능
+    
+      <img width="758" alt="Screenshot 2023-02-11 at 11 04 09 PM" src="https://user-images.githubusercontent.com/108987773/218262213-fc26dc47-f045-4e3a-8342-2b805379d2e7.png">
+    
+- Pydantic Model의 장점
+  - 비밀번호처럼 사용자가 필수적으로 입력해야 하지만 반환 값에는 나타나면 안되는 파라미터를 지정할 때 유용하게 
 
 
 
@@ -168,3 +195,4 @@
 [link3]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/multi_param.py
 [link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_path.py
 [link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_query.py
+[link6]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_pydantic.py
