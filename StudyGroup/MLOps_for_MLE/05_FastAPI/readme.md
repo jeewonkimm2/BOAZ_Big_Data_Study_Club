@@ -152,8 +152,8 @@
     - ```uvicorn crud_query:app --reload``` 명령어 실행
     
       <img width="755" alt="Screenshot 2023-02-09 at 9 21 38 PM" src="https://user-images.githubusercontent.com/108987773/217811612-89e9e3a0-df94-4e91-84a0-eaabc6647f0e.png">
-
-
+---
+# <6> Pydantic Model
 
 
 
