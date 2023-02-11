@@ -183,9 +183,44 @@
     
 - Pydantic Model의 장점
   - 비밀번호처럼 사용자가 필수적으로 입력해야 하지만 반환 값에는 나타나면 안되는 파라미터를 지정할 때 유용하게 
+---
+# <7> FastAPI on Docker
+- Pydantic을 이용하여 API 서버의 Docker 이미지 만들기
+  - [Dockerfile][link7]
+    ```
+    RUN :
+      pip 를 먼저 업데이트한 후에 fastapi[all] 을 설치
+      
+    COPY :
+      Pydantic 을 이용하여 수정한 API 의 코드가 담겨 있는 crud_paydantic.py 를 컨테이너 내부로 복사
+      
+    CMD :
+      컨테이너가 실행될 때 수행할 명령어의 기본값을 적어줍니다.
+      여기서는 uvicorn 을 이용해 crud_pydantic.py 에서 만든 FastAPI 의 객체 app 을 실행
+    ```
+  - ```docker build -t part5-api-server .``` 실행
+  - ```docker image ls```로 이미지 생성 확인
+    
+    <img width="474" alt="Screenshot 2023-02-11 at 11 21 56 PM" src="https://user-images.githubusercontent.com/108987773/218263031-73c924ad-e04f-437b-8b05-6e91fb848b61.png">
 
+  - 이미지 빌드
+    ```
+    docker run -d \
+    --name api-server \
+    -p 8000:8000 \
+    part5-api-server
+    ```
+  - 컨테이너 확인 : ```docker ps```
+  
+    <img width="892" alt="Screenshot 2023-02-11 at 11 23 39 PM" src="https://user-images.githubusercontent.com/108987773/218263104-d1564b77-f667-49ed-a967-d3b18dd84b6b.png">
 
+  - 결과 확인 : API 서버 컨테이너 실해잇 포트 포워딩을 8000:8000으로 했으므로 8000번 포트로 접속하면 API 서버 접속 가능
+    ```http://localhost:8000/docs``` 접속
+    
+    <img width="759" alt="Screenshot 2023-02-11 at 11 25 45 PM" src="https://user-images.githubusercontent.com/108987773/218263203-fdf83cc0-8fd3-4969-a391-e7b1693f86cc.png">
 
+  - 컨테이너 종료
+    ```docker rm --force api-server```
 
 
 
@@ -196,3 +231,4 @@
 [link4]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_path.py
 [link5]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_query.py
 [link6]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/crud_pydantic.py
+[link7]: https://github.com/jeewonkimm2/BOAZ_Big_Data_Study_Club/blob/main/StudyGroup/MLOps_for_MLE/05_FastAPI/Dockerfile
