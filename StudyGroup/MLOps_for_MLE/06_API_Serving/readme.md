@@ -19,8 +19,7 @@ docker rm --force api-server
 - 포트가 겹치는 문제를 막기 위해 [05. FastAPI][link] 에서 띄운 Docker 컨테이너 종료
 
 2-1. 사전 준비
-- ch3에서 작성한 도커 파일 실행 : [Dockerfile][link2], [docker-compose.yaml][link3]
-- [download_model.py][link1]
+
 
 
 
